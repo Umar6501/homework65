@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import AddStident from "./AddStudent";
+import AddStudent from "./AddStudent";
 import StudentList from "./StudentList";
 
-export class Contact extends Component {
+export class Students extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      person: JSON.parse(localStorage.getItem("contact")) || [],
+      person: JSON.parse(localStorage.getItem("student")) || [],
       search: "",
       show: false,
     };
   }
 
-  addContact = (person) => {
+  addStudent = (person) => {
     // e.preventDefault();
-    let newContact = [
+    let newStudent = [
       ...this.state.person,
       {
         id: Math.floor(Math.random() * 100000),
@@ -22,17 +22,17 @@ export class Contact extends Component {
       },
     ];
 
-    localStorage.setItem("contact", JSON.stringify(newContact));
+    localStorage.setItem("student", JSON.stringify(newStudent));
     this.setState({
-      person: JSON.parse(localStorage.getItem("contact")),
+      person: JSON.parse(localStorage.getItem("student")),
     });
   };
 
-  deleteContact = (id) => {
-    let newContact = this.state.person.filter((el) => el.id !== id);
-    localStorage.setItem("contact", JSON.stringify(newContact));
+  deleteStudent = (id) => {
+    let newStudent = this.state.person.filter((el) => el.id !== id);
+    localStorage.setItem("student", JSON.stringify(newStudent));
     this.setState({
-      person: JSON.parse(localStorage.getItem("contact")),
+      person: JSON.parse(localStorage.getItem("student")),
     });
   };
 
@@ -56,7 +56,7 @@ export class Contact extends Component {
     return (
       <div className="container">
         <div className="mt-3 d-flex gap-2 justify-content-between">
-          <form className="w-75">
+          <form className="w-70">
             <input
               type="text"
               className="form-control"
@@ -79,21 +79,21 @@ export class Contact extends Component {
             Add Contact
           </button>
         </div>
-        <AddStident
+        <AddStudent
           show={show}
           handleClose={this.handleClose}
           person={person}
-          addContact={this.addContact}
+          addStudent={this.addStudent}
         />
         <StudentList
           show={show}
           handleClose={this.handleClose}
           person={this.state.person}
-          deleteContact={this.deleteContact}
+          deleteStudent={this.deleteStudent}
         />
       </div>
     );
   }
 }
 
-export default Contact;
+export default Students;

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-// import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-export class AddStident extends Component {
+export class AddStudent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +15,7 @@ export class AddStident extends Component {
   handleSave = (e) => {
     e.preventDefault();
 
-    this.props.addContact({
+    this.props.addStudent({
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phone: this.state.phone,
@@ -101,4 +100,4 @@ export class AddStident extends Component {
   }
 }
 
-export default AddStident;
+export default AddStudent;

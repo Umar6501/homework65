@@ -31,12 +31,7 @@ export class StudentList extends Component {
                     <td>{item.phone}</td>
                     <td>{item.gender}</td>
                     <td className="d-flex gap-3">
-                      <button
-                        className="btn btn-success"
-                        // onClick={() => editChange()}
-                      >
-                        Edit
-                      </button>
+                      <button className="btn btn-success">Edit</button>
                       <button
                         className="btn btn-danger"
                         onClick={() => deleteContact(item.id)}
