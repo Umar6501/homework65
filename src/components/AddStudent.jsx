@@ -1,83 +1,104 @@
-import { Component } from "react";
+import React, { Component } from "react";
+// import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-export class AddStudent extends Component {
-  handleSubmit = (e) => {
+export class AddStident extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: "",
+      lastName: "",
+      phone: "",
+      gender: "",
+    };
+  }
+  handleSave = (e) => {
     e.preventDefault();
-    this.props.addStudent(this.props.student);
-    console.log(this.props.student);
+
+    this.props.addContact({
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      gender: this.state.gender,
+    });
+    this.setState({ firstName: "", lastName: "", phone: "", gender: "" });
     this.props.handleClose();
   };
 
   render() {
-    const { modalOpen, handleClose, student, handleStudentChange } = this.props;
+    // localStorage.clear();
+    // console.log(this.state);
+    const { show } = this.props;
+    const { firstName, lastName, phone } = this.state;
+    const { handleClose } = this.props;
     return (
-      <Modal show={modalOpen} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add student</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="firstName">Firstname</label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                value={student.firstName}
-                onChange={handleStudentChange}
-                className="form-control"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="lastName">Lastname</label>
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                value={student.lastName}
-                onChange={handleStudentChange}
-                className="form-control"
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="group">Group</label>
-              <input
-                type="text"
-                name="group"
-                id="group"
-                value={student.group}
-                onChange={handleStudentChange}
-                className="form-control"
-              />
-            </div>
-            <div className="form-check mb-3">
-              <label htmlFor="doesWork" className="form-check-label">
-                Does work?
-              </label>
-              <input
-                type="checkbox"
-                name="doesWork"
-                id="doesWork"
-                checked={student.doesWork}
-                onChange={handleStudentChange}
-                className="form-check-input"
-              />
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button type="submit" variant="primary" onClick={this.handleSubmit}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <div>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <div className="form-group mb-3">
+                <label htmlFor="firstName">Firstname</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="firstName"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(e) => this.setState({ firstName: e.target.value })}
+                />
+              </div>
+              <div className="form-group mb-3">
+                <label htmlFor="lastName">Lastname</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="lastName"
+                  name="lastName"
+                  value={lastName}
+                  onChange={(e) => this.setState({ lastName: e.target.value })}
+                />
+              </div>
+              <div className="form-group mb-3">
+                <label htmlFor="phone">Phone</label>
+                <input
+                  type="tel"
+                  className="form-control"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(e) => this.setState({ phone: e.target.value })}
+                />
+              </div>
+              <div className="form-group mb-3">
+                <select
+                  name="gender"
+                  id="gender"
+                  className="form-select form-control"
+                  onChange={(e) => this.setState({ gender: e.target.value })}
+                >
+                  <option value="">Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" variant="primary" onClick={this.handleSave}>
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     );
   }
 }
 
-export default AddStudent;
+export default AddStident;

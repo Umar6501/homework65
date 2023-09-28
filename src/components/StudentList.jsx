@@ -1,41 +1,45 @@
 import React, { Component } from "react";
 
 export class StudentList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
   render() {
-    const { students, handleDelete, handleEdit } = this.props;
+    const { person, deleteContact, editChange } = this.props;
     return (
-      <div className="py-3">
-        <table className="w-100 table table-striped">
+      <div>
+        <table className="w-100 mt-3 table table-striped">
           <thead>
             <tr>
               <th>#</th>
               <th>Firstname</th>
-              <th>Lastname</th>
-              <th>Group</th>
-              <th>Does work?</th>
-              <th>Actions</th>
+              <th>LastName</th>
+              <th>Phone</th>
+              <th>Jins</th>
+              <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
-            {students?.length > 0
-              ? students.map((student, index) => (
-                  <tr key={index + 1}>
+            {person.length > 0
+              ? this.props.person.map((item, index) => (
+                  <tr key={item.id}>
                     <td>{index + 1}</td>
-                    <td>{student.firstName}</td>
-                    <td>{student.lastName}</td>
-                    <td>{student.group}</td>
-                    <td>{student.doesWork ? "✅" : "❌"}</td>
-                    <td className="d-flex gap-2">
+                    <td>{item.firstName}</td>
+                    <td>{item.lastName}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.gender}</td>
+                    <td className="d-flex gap-3">
                       <button
-                        className="btn btn-warning btn-sm"
-                        onClick={() => handleEdit(student.id)}
+                        className="btn btn-success"
+                        // onClick={() => editChange()}
                       >
                         Edit
                       </button>
                       <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => handleDelete(student.id)}
+                        className="btn btn-danger"
+                        onClick={() => deleteContact(item.id)}
                       >
                         Delete
                       </button>

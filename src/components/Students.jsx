@@ -1,135 +1,99 @@
 import React, { Component } from "react";
+import AddStident from "./AddStudent";
 import StudentList from "./StudentList";
-import AddStudent from "./AddStudent";
 
-export class Students extends Component {
+export class Contact extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      students: JSON.parse(localStorage.getItem("students")) || [],
-      student: {
-        firstName: "",
-        lastName: "",
-        group: "",
-        doesWork: false,
-      },
+      person: JSON.parse(localStorage.getItem("contact")) || [],
       search: "",
-      modalOpen: false,
-      studentToEdit: null,
+      show: false,
     };
   }
 
-  handleSearchChange = (e) => {
+  addContact = (person) => {
+    // e.preventDefault();
+    let newContact = [
+      ...this.state.person,
+      {
+        id: Math.floor(Math.random() * 100000),
+        ...person,
+      },
+    ];
+
+    localStorage.setItem("contact", JSON.stringify(newContact));
     this.setState({
-      search: e.target.value,
+      person: JSON.parse(localStorage.getItem("contact")),
     });
   };
 
-  handleSearchSubmit = (e) => {
-    e.preventDefault();
+  deleteContact = (id) => {
+    let newContact = this.state.person.filter((el) => el.id !== id);
+    localStorage.setItem("contact", JSON.stringify(newContact));
+    this.setState({
+      person: JSON.parse(localStorage.getItem("contact")),
+    });
+  };
+
+  handleShow = () => {
+    this.setState({ show: true });
   };
 
   handleClose = () => {
-    this.setState({ modalOpen: false });
+    this.setState({ show: false });
   };
 
-  handleOpen = () => {
-    this.setState({ modalOpen: true });
+  handleEditShow = () => {
+    this.setState({ show: true });
   };
-
-  handleStudentChange = (e) => {
-    this.setState({
-      student: {
-        [e.target.name]: e.target.value,
-      },
-    });
-  };
-
-  addStudent = (student) => {
-    let newStudents = [
-      ...this.state.students,
-      {
-        id: Math.floor(Math.random() * 10000),
-        ...student,
-      },
-    ];
-    localStorage.setItem("students", JSON.stringify(newStudents));
-    this.setState({
-      students: JSON.parse(localStorage.getItem("students")),
-    });
-  };
-
-  deleteStudent = (id) => {
-    if (window.confirm("Are you sure you want to delete this student?")) {
-      let newStudents = this.state.students.filter(
-        (student) => student.id !== id
-      );
-      localStorage.setItem("students", JSON.stringify(newStudents));
-      this.setState({
-        students: JSON.parse(localStorage.getItem("students")),
-      });
-    }
-  };
-
-  editStudent = (id) => {
-    let std = this.state.students.find((student) => student.id === id);
-    this.setState({ studentToEdit: std });
-    console.log(this.state.studentToEdit);
-    this.handleOpen();
+  editChange = () => {
+    this.handleEditShow();
   };
 
   render() {
-    const { students, student, search, modalOpen, studentToEdit } = this.state;
-
+    const { show, person } = this.state;
     return (
-      <div className="container py-3">
-        <div className="d-flex gap-3">
-          <form onSubmit={this.handleSearchSubmit} className="d-flex w-75">
+      <div className="container">
+        <div className="mt-3 d-flex gap-2 justify-content-between">
+          <form className="w-75">
             <input
-              className="form-control"
               type="text"
-              name="search"
-              id="search"
+              className="form-control"
               placeholder="Search..."
-              value={search}
-              onChange={this.handleSearchChange}
             />
-            <button type="submit" className="btn btn-primary">
-              Search
-            </button>
           </form>
-          <select name="filter" id="filter" className="form-select w-25">
-            <option value="all">All</option>
-            <option value="N10">React N10</option>
-            <option value="N14">React N14</option>
-            <option value="N32">React N32</option>
-          </select>
-          <button
-            onClick={this.handleOpen}
-            className="btn btn-outline-success"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            Add student
+          <div className="form-group">
+            <select
+              name="gender"
+              id="gender"
+              className="form-select form-control"
+              onChange={(e) => this.setState({ gender: e.target.value })}
+            >
+              <option value="">Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <button className="btn btn-primary" onClick={this.handleShow}>
+            Add Contact
           </button>
         </div>
-
-        <AddStudent
-          modalOpen={modalOpen}
+        <AddStident
+          show={show}
           handleClose={this.handleClose}
-          addStudent={this.addStudent}
-          student={studentToEdit ? studentToEdit : student}
-          handleStudentChange={this.handleStudentChange}
+          person={person}
+          addContact={this.addContact}
         />
-
         <StudentList
-          students={students}
-          handleDelete={this.deleteStudent}
-          handleEdit={this.editStudent}
+          show={show}
+          handleClose={this.handleClose}
+          person={this.state.person}
+          deleteContact={this.deleteContact}
         />
       </div>
     );
   }
 }
 
-export default Students;
+export default Contact;
