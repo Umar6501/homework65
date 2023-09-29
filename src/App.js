@@ -3,7 +3,7 @@ import Students from "./components/Students";
 
 function App() {
   return (
-    <div className="bg-dark" style={{ minHeight: "100vh" }}>
+    <div className="bg-primary-subtle" style={{ minHeight: "100vh" }}>
       <Students />
     </div>
   );
